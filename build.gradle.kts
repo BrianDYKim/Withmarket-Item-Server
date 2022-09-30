@@ -34,7 +34,7 @@ allprojects {
 }
 
 // 공통 Dependency 적용을 제외할 모듈 리스트
-val nonDependencyProjects = listOf("commons", "common", "independent")
+val nonDependencyProjects = listOf("commons", "common", "independent", "grpc-interface")
 
 configure(subprojects.filter { it.name !in nonDependencyProjects }) {
     apply(plugin = "org.springframework.boot")

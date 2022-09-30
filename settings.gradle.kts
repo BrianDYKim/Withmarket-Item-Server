@@ -21,11 +21,11 @@ pluginManagement {
 
 // include projects
 include(
-    "presentation"
+    "application"
 )
 
 include(
-    "application"
+    "presentation"
 )
 
 include(
@@ -33,11 +33,13 @@ include(
 )
 
 include(
-    "infrastructure"
+    "infrastructure",
+    "infrastructure:dao"
 )
 
 include(
-    "independent"
+    "independent",
+    "independent:grpc-interface"
 )
 
 include(
