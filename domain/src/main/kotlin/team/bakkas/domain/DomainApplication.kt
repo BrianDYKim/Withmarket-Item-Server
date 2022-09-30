@@ -1,11 +1,11 @@
-package team.bakkas.withmarketitemserver
+package team.bakkas.domain
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class WithmarketItemServerApplication
+class DomainApplication
 
 fun main(args: Array<String>) {
-    runApplication<WithmarketItemServerApplication>(*args)
+    runApplication<DomainApplication>(*args)
 }

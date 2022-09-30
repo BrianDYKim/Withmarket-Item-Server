@@ -1,10 +1,10 @@
-package team.bakkas.withmarketitemserver
+package team.bakkas.domain
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class WithmarketItemServerApplicationTests {
+class DomainApplicationTests {
 
     @Test
     fun contextLoads() {
