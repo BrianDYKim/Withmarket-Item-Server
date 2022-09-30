@@ -1,7 +1,5 @@
 rootProject.name = "Withmarket-Item-Server"
 
-rootProject.name = "liner-highlight"
-
 pluginManagement {
     val kotlinVersion = "1.5.10"
     val springBootVersion = "2.6.6"
