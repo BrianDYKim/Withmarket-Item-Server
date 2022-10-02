@@ -60,6 +60,9 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-aop")
 
+        // JPA
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
         // Kotlin Coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
