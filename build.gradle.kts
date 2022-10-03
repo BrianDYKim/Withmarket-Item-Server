@@ -4,6 +4,7 @@ val coroutineVersion = "1.6.3"
 val mockkVersion = "1.12.0"
 val kotestVersion = "5.3.2"
 val springCloudVersion = "2021.0.2"
+val queryDslVersion = "5.0.0"
 
 plugins {
     id("org.springframework.boot")
@@ -13,6 +14,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+
+    kotlin("kapt")
 
     id("com.google.protobuf")
 }
@@ -30,6 +33,8 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven("https://jitpack.io")
+        maven("https://plugins.gradle.org/m2/")
     }
 }
 
@@ -43,6 +48,8 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring")
     apply(plugin = "kotlin-jpa")
+
+    apply(plugin = "kotlin-kapt")
 
     apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
     apply(plugin = "org.jetbrains.kotlin.plugin.noarg")
@@ -62,14 +69,15 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
 
         // JPA
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("com.h2database:h2:2.1.214")
+
+        implementation("com.querydsl:querydsl-jpa:$queryDslVersion")
+        kapt("com.querydsl:querydsl-apt:$queryDslVersion:jpa")
 
         // Kotlin Coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
-
-        // Spring Cloud
-        implementation("org.springframework.cloud:spring-cloud-starter-config")
 
         // Test Implementation
         testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -81,13 +89,12 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion")
 
         // Annotation Processing Tool
-        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        kapt("org.springframework.boot:spring-boot-configuration-processor")
     }
 
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
-        }
+    // QueryDSL이 만들어주는 Qclass를 사용하기 위해 저 위치로 접근할 수 있도록 설정해주는 부분이다.
+    sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+        kotlin.srcDir("$buildDir/generated/source/kapt/main")
     }
 
     tasks.withType<KotlinCompile> {
