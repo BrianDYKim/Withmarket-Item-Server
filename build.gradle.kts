@@ -36,6 +36,11 @@ allprojects {
         maven("https://jitpack.io")
         maven("https://plugins.gradle.org/m2/")
     }
+
+    // DuplicatesStrategy 설정
+    tasks.withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
 }
 
 // 공통 Dependency 적용을 제외할 모듈 리스트
