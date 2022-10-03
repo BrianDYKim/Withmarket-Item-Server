@@ -18,6 +18,7 @@ import javax.persistence.*
 class ShopItem(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     var id: Long = 0L,
     var name: String = "",
     @Embedded
