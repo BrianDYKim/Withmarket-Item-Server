@@ -18,7 +18,7 @@ class Option(
     var id: Long = 0L,
     var name: String = "",
     var price: Int = 0,
-    @Column(name = "group_id")
+    @Column(name = "group_id", nullable = false)
     var groupId: Long = 0L // 외래키 속성
 ) {
 

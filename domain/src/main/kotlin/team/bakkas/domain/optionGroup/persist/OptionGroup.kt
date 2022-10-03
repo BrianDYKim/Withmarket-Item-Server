@@ -22,8 +22,8 @@ class OptionGroup(
     var name: String = "",
     @Embedded
     var selectInfo: GroupSelectInfo = GroupSelectInfo(),
-    @Column(name = "item_id", nullable = true)
-    var itemId: Long? = null
+    @Column(name = "item_id", nullable = false)
+    var itemId: Long = 0L
 ): BaseTimeEntity() {
 
 }
