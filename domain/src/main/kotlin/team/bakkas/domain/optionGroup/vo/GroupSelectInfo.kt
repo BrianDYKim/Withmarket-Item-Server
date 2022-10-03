@@ -7,7 +7,7 @@ import javax.persistence.Embeddable
  *
  */
 @Embeddable
-class GroupSelectInfo(
+data class GroupSelectInfo(
     @Column(name = "basic_select")
     var basicSelect: Boolean = false, // 기본 선택 여부
     @Column(name = "exclusive_select")
