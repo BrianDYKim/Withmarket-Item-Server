@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository
  * @author Brian
  * @since 2022/10/02
  */
-@Repository
-interface ShopItemRepository: JpaRepository<ShopItem, Long> {
+interface ShopItemRepository: JpaRepository<ShopItem, Long>, ShopItemCustomRepository {
 
 }
