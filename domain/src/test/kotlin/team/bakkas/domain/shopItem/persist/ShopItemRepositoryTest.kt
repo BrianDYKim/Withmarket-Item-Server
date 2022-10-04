@@ -1,6 +1,7 @@
 package team.bakkas.domain.shopItem.persist
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,6 +14,7 @@ internal class ShopItemRepositoryTest @Autowired constructor(
     private val shopItemRepository: ShopItemRepository
 ) {
     @Test
+    @DisplayName("[create] 생성 테스트")
     fun create() {
         val shopItem = generateShopItem()
         val savedItem = shopItemRepository.save(shopItem)
@@ -21,6 +23,23 @@ internal class ShopItemRepositoryTest @Autowired constructor(
             println(id)
             println(shopId)
             println(shopName)
+        }
+    }
+
+    @Test
+    @DisplayName("[findAllByShopId] 탐색 테스트")
+    fun findAllByShopIdTest() {
+        // given
+        val shopId = "62291630-12e8-461e-8708-442c46eceeba"
+
+        // when
+        val itemList = shopItemRepository.findAllByShopId(shopId)
+
+        // then
+        itemList.forEach {
+            println(it.id)
+            println(it.name)
+            println(it.shopName)
         }
     }
 

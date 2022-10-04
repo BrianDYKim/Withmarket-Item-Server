@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
  * @since 2022/10/02
  */
 interface ShopItemRepository: JpaRepository<ShopItem, Long>, ShopItemCustomRepository {
-
+    // shopId를 기반으로 shopItem의 모든 목록을 반환하는 메소드
+    fun findAllByShopId(shopId: String): List<ShopItem>
 }
