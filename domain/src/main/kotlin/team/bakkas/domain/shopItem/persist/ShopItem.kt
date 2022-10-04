@@ -26,7 +26,8 @@ class ShopItem(
     var priceInfo: PriceInfo = PriceInfo(),
     @Column(name = "item_image_url")
     var itemImage: String? = null,
-    @Column(name = "is_on_sale") var isOnSale: Boolean = false,
+    @Column(name = "is_on_sale")
+    var isOnSale: Boolean = false,
     var description: String = "",
     @Column(name = "item_quantity")
     var itemQuantity: Int? = null,

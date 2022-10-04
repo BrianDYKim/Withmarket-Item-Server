@@ -10,4 +10,7 @@ interface ShopItemCustomRepository {
 
     // 주어진 mainRequest에 대해서 mainResponse의 list를 반환해주는 메소드
     fun findAllWithMainRequest(mainRequest: ShopItemQuery.MainRequest): List<ShopItemQuery.MainResponse>
+
+    // 주어진 detailRequest에 대해서 shopItem의 detailResponse를 반환해주는 메소드
+    fun findWithDetailRequest(detailRequest: ShopItemQuery.DetailRequest): ShopItemQuery.DetailResponse?
 }

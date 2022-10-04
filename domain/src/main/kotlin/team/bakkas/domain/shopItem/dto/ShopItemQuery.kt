@@ -1,5 +1,6 @@
 package team.bakkas.domain.shopItem.dto
 
+import team.bakkas.domain.optionGroup.dto.OptionGroupQuery
 import team.bakkas.domain.shopItem.vo.Category
 import team.bakkas.domain.shopItem.vo.DetailCategory
 import team.bakkas.domain.shopItem.vo.PriceInfo
@@ -22,10 +23,48 @@ sealed class ShopItemQuery {
         var name: String,
         var priceInfo: PriceInfo,
         var itemImage: String?,
+        var isOnSale: Boolean,
         var description: String,
         var itemQuantity: Int?,
         var category: Category,
         var detailCategory: DetailCategory,
         var shopId: String
+    ) : java.io.Serializable
+
+    // ShopItem의 상세 정보를 얻어내기 위한 request
+    data class DetailRequest(
+        var itemId: Long,
+        var shopId: String,
+        var shopName: String
+    )
+
+    // ShopItem의 상세 정보를 반환하는 response
+    data class DetailResponse(
+        var id: Long,
+        var name: String,
+        var salePrice: Int,
+        var itemImage: String?,
+        var description: String,
+        var itemQuantity: Int?,
+        var optionGroupList: List<OptionGroupQuery.DetailResponse>
+    ) : java.io.Serializable {
+        companion object {
+            // detailTempResponse, optionGroupList를 기반으로 detailResponse를 생성하는 메소드
+            fun of(
+                detailTempResponse: DetailTempResponse, optionGroupList: List<OptionGroupQuery.DetailResponse>
+            ): DetailResponse = with(detailTempResponse) {
+                DetailResponse(id, name, salePrice, itemImage, description, itemQuantity, optionGroupList)
+            }
+        }
+    }
+
+    // ShopItem 자체의 메타데이터를 담는 dto
+    data class DetailTempResponse(
+        var id: Long,
+        var name: String,
+        var salePrice: Int,
+        var itemImage: String?,
+        var description: String,
+        var itemQuantity: Int?
     )
 }
