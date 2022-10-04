@@ -1,17 +1,21 @@
 package team.bakkas.domain.shopItem.persist
 
+import com.querydsl.core.types.Projections
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import team.bakkas.domain.shopItem.dto.ShopItemQuery
 import team.bakkas.domain.shopItem.vo.Category
 import team.bakkas.domain.shopItem.vo.DetailCategory
 import team.bakkas.domain.shopItem.vo.PriceInfo
 
 @SpringBootTest
 internal class ShopItemRepositoryTest @Autowired constructor(
-    private val shopItemRepository: ShopItemRepository
+    private val shopItemRepository: ShopItemRepository,
+    private val query: JPAQueryFactory
 ) {
     @Test
     @DisplayName("[create] 생성 테스트")
@@ -43,12 +47,32 @@ internal class ShopItemRepositoryTest @Autowired constructor(
         }
     }
 
+    @Test
+    @DisplayName("[findAllWithMainRequest] mainRequest 기반 탐색 테스트")
+    fun findAllWithMainRequest() {
+        // given
+        val mainRequest = ShopItemQuery.MainRequest(
+            shopId = "62291630-12e8-461e-8708-442c46eceeba",
+            shopName = "카페봄봄 영남대점"
+        )
+
+        // when
+        val mainResponseList = shopItemRepository.findAllWithMainRequest(mainRequest)
+
+        // then
+        mainResponseList.forEach {
+            assertEquals(it.shopId, mainRequest.shopId)
+        }
+
+        println(mainResponseList)
+    }
+
     private fun generateShopItem() = ShopItem(
-        name = "봄봄 아메리카노",
-        priceInfo = PriceInfo(originalPrice = 2000, salePrice = 2000),
+        name = "캬라멜 마끼야또",
+        priceInfo = PriceInfo(originalPrice = 4000, salePrice = 3500),
         itemImage = null,
         isOnSale = true,
-        description = "봄봄의 갓성비 메뉴, 아메리카노입니다!",
+        description = "달달한 캬라멜 마끼야또",
         itemQuantity = null,
         category = Category.BEVERAGE,
         detailCategory = DetailCategory.COFFEE,
