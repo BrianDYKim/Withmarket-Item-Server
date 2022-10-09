@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 val coroutineVersion = "1.6.3"
 val mockkVersion = "1.12.0"
@@ -112,5 +113,15 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+    }
+}
+
+tasks {
+    named<Jar>("jar") {
+        enabled = true
+    }
+
+    named<BootJar>("bootJar") {
+        enabled = false
     }
 }

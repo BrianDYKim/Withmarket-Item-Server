@@ -1,7 +1,7 @@
 FROM openjdk:11-jdk
 
-ARG APPLICATION_NAME=presentation
-ARG DEPLOY_VERSION=1.0.0
+ARG APPLICATION_NAME=withmarket-item
+ARG DEPLOY_VERSION=0.0.1
 
 # JAR_FILE 변수 정의 -> 기본적으로 jar file이 2개이기 때문에 이름을 특정해야함
 ARG JAR_FILE=./build/libs/${APPLICATION_NAME}-${DEPLOY_VERSION}.jar
