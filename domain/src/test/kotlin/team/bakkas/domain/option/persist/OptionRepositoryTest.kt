@@ -14,26 +14,6 @@ import team.bakkas.domain.option.persist.QOption.*
 internal class OptionRepositoryTest @Autowired constructor(
     private val optionRepository: OptionRepository
 ) {
-    @Test
-    @DisplayName("[create] option 생성 테스트")
-    fun createTest() {
-        // given
-        val groupId = 2L
-        val option = generateOption(groupId).apply {
-            this.name = "2샷 추가"
-            this.price = 500
-        }
-
-        // when
-        val savedOption = optionRepository.save(option)
-
-        // then
-        with(savedOption) {
-            println(id)
-            println(name)
-            println(price)
-        }
-    }
 
     private fun generateOption(groupId: Long) = Option(
         name = "다크맛 원두",

@@ -11,24 +11,6 @@ import team.bakkas.domain.optionGroup.vo.GroupSelectInfo
 internal class OptionGroupRepositoryTest @Autowired constructor(
     private val optionGroupRepository: OptionGroupRepository
 ) {
-    @Test
-    @DisplayName("[create] 옵션 그룹 생성 테스트")
-    fun createTest() {
-        // given
-        val itemId = 1L
-        val optionGroup = generateOptionGroup(itemId).apply {
-            this.name = "샷 추가"
-        }
-
-        // when
-        val savedGroup = optionGroupRepository.save(optionGroup)
-
-        // then
-        with(savedGroup) {
-            println(this.id)
-            println(this.name)
-        }
-    }
 
     private fun generateOptionGroup(itemId: Long) = OptionGroup(
         name = "원두 종류",
