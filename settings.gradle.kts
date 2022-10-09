@@ -35,11 +35,6 @@ include(
 )
 
 include(
-    "infrastructure",
-    "infrastructure:dao"
-)
-
-include(
     "independent",
     "independent:grpc-interface"
 )
