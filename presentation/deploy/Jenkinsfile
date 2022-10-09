@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        ECR_REPO = "326991552997.dkr.ecr.ap-northeast-2.amazonaws.com/test-cicd"
         NAME = "withmarket-item-server"
     }
 
@@ -30,7 +31,7 @@ pipeline {
             steps {
                 dir("${env.WORKSPACE}") {
                     sh 'cd presentation'
-                    sh './gradlew clean build'
+                    sh './gradlew build'
                 }
             }
 
@@ -41,6 +42,15 @@ pipeline {
 
                 failure {
                     echo 'The Build stage is fail.'
+                }
+            }
+        }
+
+        stage("========== Build Docker Image ==========") {
+            steps {
+                dir("${env.WORKSPACE}") {
+                    sh 'docker build -t ${NAME} .'
+                    sh 'docker tag ${NAME}:latest ${ECR_REPO}:latest'
                 }
             }
         }
