@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.RestController
 class HealthCheckController {
 
     @GetMapping("/health")
-    fun healthCheck(): String = "healthy"
+    fun healthCheck(): String = "healthy!"
 }
