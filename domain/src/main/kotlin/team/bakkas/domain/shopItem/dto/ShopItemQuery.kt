@@ -4,6 +4,7 @@ import team.bakkas.domain.optionGroup.dto.OptionGroupQuery
 import team.bakkas.domain.shopItem.vo.Category
 import team.bakkas.domain.shopItem.vo.DetailCategory
 import team.bakkas.domain.shopItem.vo.PriceInfo
+import javax.validation.constraints.NotEmpty
 
 /** ShopItem에 대한 조회용 dto를 정의하는 sealed class
  * @author Doyeop Kim
@@ -13,7 +14,9 @@ sealed class ShopItemQuery {
 
     // Shop의 메인 화면에 주어지는 request
     data class MainRequest(
+        @NotEmpty
         var shopId: String,
+        @NotEmpty
         var shopName: String
     )
 
@@ -33,8 +36,11 @@ sealed class ShopItemQuery {
 
     // ShopItem의 상세 정보를 얻어내기 위한 request
     data class DetailRequest(
+        @NotEmpty
         var itemId: Long,
+        @NotEmpty
         var shopId: String,
+        @NotEmpty
         var shopName: String
     )
 
