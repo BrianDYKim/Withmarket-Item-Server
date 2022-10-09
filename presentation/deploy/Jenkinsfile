@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        ECR_REPO = "326991552997.dkr.ecr.ap-northeast-2.amazonaws.com/test-cicd"
+        ECR_REPO = "326991552997.dkr.ecr.ap-northeast-2.amazonaws.com/withmarket-item-server"
         NAME = "withmarket-item-server"
+
+        AWS_CREDENTIALS = "jenkins_deploy_user_credentials"
     }
 
     stages {
@@ -51,6 +53,41 @@ pipeline {
                 dir("${env.WORKSPACE}") {
                     sh 'cd presentation && docker build -t ${NAME} .'
                     sh 'docker tag ${NAME}:latest ${ECR_REPO}:latest'
+                }
+            }
+
+            post {
+                success {
+                    echo 'The Build Docker stage is done successfully.'
+                }
+
+                failure {
+                    echo 'The Build Docker stage is fail.'
+                }
+            }
+        }
+
+        stage("========== ECR Upload ==========") {
+            steps {
+                script {
+                    try {
+                        withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::326991552997:role/jenkins_deploy_role', roleAccount: "326991552997", externalId: "18k7102dy@gmail.com") {
+                            sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO}"
+                            sh "docker push ${ECR_REPO}:latest"
+                        }
+                    }catch(error) {
+                        print(error)
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+
+            post {
+                success {
+                    echo "The ECR Upload stage is done successfully."
+                }
+                failure {
+                    echo "The ECR Upload stage is fail."
                 }
             }
         }
