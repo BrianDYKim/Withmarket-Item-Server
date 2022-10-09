@@ -3,6 +3,7 @@ package team.bakkas.domain.shopItem.persist
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
+import team.bakkas.domain.option.dto.OptionQuery
 import team.bakkas.domain.optionGroup.dto.OptionGroupQuery
 import team.bakkas.domain.shopItem.dto.ShopItemQuery
 
@@ -56,21 +57,25 @@ class ShopItemCustomRepositoryImpl(
             .where(shopItem.id.eq(detailRequest.itemId))
             .fetchOne()
 
-        // request에 대응하는 item의 optionGroup을 가져오는 로직
+        // itemId를 이용해서 optionGroup, option 묶음을 불러오는 로직 -> innerJoin 활용
         val optionGroupTempDto = query.select(
             Projections.constructor(
                 OptionGroupQuery.DetailTempResponse::class.java,
                 optionGroup.id,
                 optionGroup.name,
-                optionGroup.selectInfo
+                optionGroup.selectInfo,
+                option.id.`as`("option_id"),
+                option.name.`as`("option_name"),
+                option.price
             )
         ).from(optionGroup)
-            .innerJoin(shopItem).on(shopItem.id.eq(optionGroup.itemId))
+            .join(option).on(optionGroup.id.eq(option.groupId))
+            .where(optionGroup.itemId.eq(detailRequest.itemId))
             .fetch()
 
-        // optionGroup에 대한 option들을 대응시켜서 넣어주는 로직
+        // tempResponse에서 detailResponse의 목록을 추출해온다
+        val optionGroupResponseList = OptionGroupQuery.DetailResponse.of(optionGroupTempDto)
 
-
-        TODO("Not yet implemented")
+        return ShopItemQuery.DetailResponse.of(itemTempDto!!, optionGroupResponseList)
     }
 }

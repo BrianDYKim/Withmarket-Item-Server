@@ -19,6 +19,7 @@ class Option(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
     var id: Long = 0L,
+    @Column(name = "option_name")
     var name: String = "",
     var price: Int = 0,
     @Column(name = "group_id", nullable = false)

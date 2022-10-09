@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
+import team.bakkas.domain.shopItem.persist.QShopItem.*
+import team.bakkas.domain.optionGroup.persist.QOptionGroup.*
+import team.bakkas.domain.option.persist.QOption.*
+
 @SpringBootTest
 internal class OptionRepositoryTest @Autowired constructor(
     private val optionRepository: OptionRepository

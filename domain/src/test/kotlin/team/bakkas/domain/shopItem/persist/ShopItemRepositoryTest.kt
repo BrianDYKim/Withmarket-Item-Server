@@ -7,10 +7,16 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import team.bakkas.domain.option.dto.OptionQuery
+import team.bakkas.domain.optionGroup.dto.OptionGroupQuery
 import team.bakkas.domain.shopItem.dto.ShopItemQuery
 import team.bakkas.domain.shopItem.vo.Category
 import team.bakkas.domain.shopItem.vo.DetailCategory
 import team.bakkas.domain.shopItem.vo.PriceInfo
+
+import team.bakkas.domain.shopItem.persist.QShopItem.*
+import team.bakkas.domain.optionGroup.persist.QOptionGroup.*
+import team.bakkas.domain.option.persist.QOption.*
 
 @SpringBootTest
 internal class ShopItemRepositoryTest @Autowired constructor(
@@ -65,6 +71,63 @@ internal class ShopItemRepositoryTest @Autowired constructor(
         }
 
         println(mainResponseList)
+    }
+
+    @Test
+    @DisplayName("[find complex] 1. join test (optionGroup <=> option)")
+    fun joinTest1() {
+        // given
+        val itemId = 1L
+
+        // when
+        val optionGroupTempDto = query.select(
+            Projections.constructor(
+                OptionGroupQuery.DetailTempResponse::class.java,
+                optionGroup.id,
+                optionGroup.name,
+                optionGroup.selectInfo,
+                option.id.`as`("option_id"),
+                option.name.`as`("option_name"),
+                option.price
+            )
+        ).from(optionGroup)
+            .join(option).on(optionGroup.id.eq(option.groupId))
+            .where(optionGroup.itemId.eq(itemId))
+            .fetch()
+
+        val result = optionGroupTempDto
+            .groupBy { it.id }
+            .values
+            .map {
+                val group = it.first()
+                val optionList = it.map { OptionQuery.DetailResponse(it.optionId, it.optionName, it.optionPrice) }.toList()
+                OptionGroupQuery.DetailResponse(group.id, group.name, group.selectInfo, optionList)
+            }
+            .toList()
+
+        // then
+        result.forEach { println(it) }
+        optionGroupTempDto.forEach { println(it) }
+    }
+
+    @Test
+    @DisplayName("[findWithDetailRequest] 1. 찾아오는데 성공하는 메소드")
+    fun findWithDetailRequest1() {
+        // given
+        val itemId = 1L
+        val shopId = "62291630-12e8-461e-8708-442c46eceeba"
+        val shopName = "카페봄봄 영남대점"
+        val detailRequest = ShopItemQuery.DetailRequest(itemId, shopId, shopName)
+
+        // when
+        val result = shopItemRepository.findWithDetailRequest(detailRequest)
+
+        // then
+        result?.let {
+            println(it.id)
+            println(it.name)
+            println(it.optionGroupList)
+        }
     }
 
     private fun generateShopItem() = ShopItem(

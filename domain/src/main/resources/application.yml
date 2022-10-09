@@ -1,21 +1,3 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/withmarket-item?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: user1
-    password: briandykim15!
-
-  jpa:
-    open-in-view: true # OSIV를 활성화시켜서 Service layer까지 영속성 컨텍스트 활성화
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-    properties:
-      hibernate.format_sql: true
-      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
-logging:
-  level:
-    org.hibernate.SQL: debug
+  profiles:
+    active: localRdb

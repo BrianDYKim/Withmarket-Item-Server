@@ -11,7 +11,9 @@ data class GroupSelectInfo(
     @Column(name = "basic_select")
     var basicSelect: Boolean = false, // 기본 선택 여부
     @Column(name = "exclusive_select")
-    var exclusiveSelect: Boolean = false // 배타 선택 여부
+    var exclusiveSelect: Boolean = false,  // 배타 선택 여부
 ) {
-
+    fun asd() {
+        TODO("최소, 최대 개수 선택 필드 삽입")
+    }
 }

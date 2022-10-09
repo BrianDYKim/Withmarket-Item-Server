@@ -1,0 +1,24 @@
+spring:
+  config:
+    activate:
+      on-profile: productRdb
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://withmarket.c4e8qukc2vf7.ap-northeast-2.rds.amazonaws.com/withmarket-item?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: BrianDYKim
+    password: withmarketbrian17!
+
+  jpa:
+    open-in-view: false # OSIV를 활성화시켜서 Service layer까지 영속성 컨텍스트 활성화
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+logging:
+  level:
+    org.hibernate.SQL: debug

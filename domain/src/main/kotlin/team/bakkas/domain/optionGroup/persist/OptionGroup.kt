@@ -21,6 +21,7 @@ class OptionGroup(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_id")
     var id: Long = 0L,
+    @Column(name = "group_name")
     var name: String = "",
     @Embedded
     var selectInfo: GroupSelectInfo = GroupSelectInfo(),
