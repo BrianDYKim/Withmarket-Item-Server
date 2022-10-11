@@ -1,5 +1,9 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+val groupName = "team.bakkas"
+val excludeTestModuleList = listOf("common", "domain", "grpcinterface")
 
 val coroutineVersion = "1.6.3"
 val mockkVersion = "1.12.0"
@@ -22,7 +26,7 @@ plugins {
 }
 
 allprojects {
-    group = "team.bakkas"
+    group = groupName
     version = "1.0.0"
 
     apply(plugin = "kotlin")
@@ -100,7 +104,7 @@ configure(subprojects.filter { it.name !in nonDependencyProjects }) {
     }
 
     // QueryDSL이 만들어주는 Qclass를 사용하기 위해 저 위치로 접근할 수 있도록 설정해주는 부분이다.
-    sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+    sourceSets["main"].withConvention(KotlinSourceSet::class) {
         kotlin.srcDir("$buildDir/generated/source/kapt/main")
     }
 
@@ -123,5 +127,12 @@ tasks {
 
     named<BootJar>("bootJar") {
         enabled = false
+    }
+
+    named<Test>("test") {
+        // grpcInterface, common, domain에 대해선 테스트 목록에서 제외시킨다
+        excludeTestModuleList.forEach {
+            exclude("${groupName}.${it}")
+        }
     }
 }
