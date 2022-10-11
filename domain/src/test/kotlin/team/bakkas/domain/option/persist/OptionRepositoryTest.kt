@@ -15,9 +15,20 @@ internal class OptionRepositoryTest @Autowired constructor(
     private val optionRepository: OptionRepository
 ) {
 
+    @Test
+    @DisplayName("[create] 생성 테스트")
+    fun create() {
+        // given
+        val groupId = 2L
+        val option = generateOption(groupId)
+
+        // when
+        val result = optionRepository.save(option)
+    }
+
     private fun generateOption(groupId: Long) = Option(
-        name = "다크맛 원두",
-        price = 0,
+        name = "1샷 추가",
+        price = 300,
         groupId = groupId
     )
 }

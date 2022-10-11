@@ -24,6 +24,36 @@ internal class ShopItemRepositoryTest @Autowired constructor(
     private val query: JPAQueryFactory
 ) {
 
+    @Test
+    @DisplayName("[create] 생성 테스트")
+    fun create() {
+        // given
+        val shopItem = generateShopItem()
+
+        // when
+        val result = shopItemRepository.save(shopItem)
+    }
+
+    @Test
+    @DisplayName("[findWithDetailRequest] 세부적으로 찾아오는 테스트")
+    fun findWithDetailRequest() {
+        // given
+        val itemId = 1L
+        val shopId = "62291630-12e8-461e-8708-442c46eceeba"
+        val shopName = "카페봄봄 영남대점"
+
+        val detailRequest = ShopItemQuery.DetailRequest(itemId, shopId, shopName)
+
+        // when
+        val result = shopItemRepository.findWithDetailRequest(detailRequest)
+
+        // then
+        result?.let {
+            assertEquals(result.id, itemId)
+            println(result)
+        }
+    }
+
     private fun generateShopItem() = ShopItem(
         name = "캬라멜 마끼야또",
         priceInfo = PriceInfo(originalPrice = 4000, salePrice = 3500),

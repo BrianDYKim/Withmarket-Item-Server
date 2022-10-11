@@ -33,8 +33,10 @@ class ShopItem(
     var itemQuantity: Int? = null,
     @Column(name = "discounted_at")
     var discountedAt: LocalDateTime? = null,
+    @Enumerated(EnumType.STRING)
     var category: Category = Category.ITEM,
     @Column(name = "detail_category")
+    @Enumerated(EnumType.STRING)
     var detailCategory: DetailCategory = DetailCategory.DETAIL_ITEM,
     @Column(name = "shop_id", nullable = false)
     var shopId: String = "",
