@@ -128,11 +128,4 @@ tasks {
     named<BootJar>("bootJar") {
         enabled = false
     }
-
-    named<Test>("test") {
-        // grpcInterface, common, domain에 대해선 테스트 목록에서 제외시킨다
-        excludeTestModuleList.forEach {
-            exclude("${groupName}.${it}/**")
-        }
-    }
 }
